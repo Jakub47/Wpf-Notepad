@@ -33,6 +33,7 @@ namespace Notepad
 
         public static void VowelCounter(string temp)
         {
+            temp = temp.ToLower();
             Vowels = "";
             string pattern = @"[a e i o u]";
             Regex regex = new Regex(pattern);
@@ -51,7 +52,7 @@ namespace Notepad
 
             foreach (var value in vowels)
             {
-                Vowels += value.Key + ": " + value.Value;
+                Vowels += value.Key + ": " + value.Value + " | ";
             }
         }
     }

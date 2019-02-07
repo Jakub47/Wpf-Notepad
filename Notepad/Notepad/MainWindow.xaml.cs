@@ -28,9 +28,7 @@ namespace Notepad
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            TextProp.LettersCount = txtMainArea.Text.Trim().Count();
-            TextProp.VowelCounter(txtMainArea.Text);
-            ChangeStatusInfo();
+            
         }
 
         private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
@@ -45,7 +43,24 @@ namespace Notepad
         private void ChangeStatusInfo()
         {
             txtBasicInfo.Text = "Line " + (CursorProp.row + 1) + " Char " + (CursorProp.col + 1) + 
-                                " Letters " + txtMainArea.Text.Trim().Count() + " Vowels " + TextProp.Vowels;
+                                " Letters " + TextProp.LettersCount + " Vowels " + TextProp.Vowels;
+        }
+
+        private void TxtMainArea_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextProp.LettersCount = txtMainArea.Text.Where(a => !char.IsWhiteSpace(a)).Count();
+            TextProp.VowelCounter(txtMainArea.Text);
+            ChangeStatusInfo();
+        }
+
+        private void SmallToBig_Click(object sender, RoutedEventArgs e)
+        {
+            txtMainArea.SelectedText = txtMainArea.SelectedText.ToUpper();
+        }
+
+        private void BigToSmall_Click(object sender, RoutedEventArgs e)
+        {
+            txtMainArea.SelectedText = txtMainArea.SelectedText.ToLower();
         }
     }
 }
