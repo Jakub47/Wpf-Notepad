@@ -1,0 +1,7 @@
+https://social.msdn.microsoft.com/Forums/vstudio/en-US/a08e187e-5683-4f10-b946-fef37a36b581/backspace-not-detected-as-keydown-event?forum=wpf
+https://docs.microsoft.com/en-us/dotnet/api/system.string.trim?view=netframework-4.7.2
+https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expressions?view=netframework-4.7.2
+https://stackoverflow.com/questions/13318561/adding-new-line-of-data-to-textbox
+https://www.c-sharpcorner.com/Resources/764/how-to-get-selected-text-of-a-wpf-textbox.aspx
+https://stackoverflow.com/questions/4682915/defining-menuitem-shortcuts
+https://stackoverflow.com/questions/23028299/commandconverter-cannot-convert-from-system-string-in-wpf
