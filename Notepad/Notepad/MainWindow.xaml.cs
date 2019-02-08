@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 
 namespace Notepad
 {
@@ -48,6 +50,10 @@ namespace Notepad
 
         private void TxtMainArea_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if(!this.Title.ElementAt(this.Title.Length - 1).Equals('*'))
+            {
+                this.Title += '*';
+            }
             TextProp.LettersCount = txtMainArea.Text.Where(a => !char.IsWhiteSpace(a)).Count();
             TextProp.VowelCounter(txtMainArea.Text);
             ChangeStatusInfo();
@@ -61,6 +67,102 @@ namespace Notepad
         private void BigToSmall_Click(object sender, RoutedEventArgs e)
         {
             txtMainArea.SelectedText = txtMainArea.SelectedText.ToLower();
+        }
+
+        private void MenuOpen_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog fileDialog = new Microsoft.Win32.OpenFileDialog();
+            if (fileDialog.ShowDialog() == true)
+            {
+                string filename = fileDialog.FileName;
+                string message = "Czy zapisac ten plik";
+                var result = MessageBox.Show(message, "Save file", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if(result.ToString() == "Yes")
+                {
+                    Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+                    saveFileDialog.FileName = this.Title;
+                    saveFileDialog.DefaultExt = ".txt";
+                    var Saveresult = saveFileDialog.ShowDialog();
+                    if(Saveresult == true)
+                    {
+                        string path = saveFileDialog.FileName;
+                        if (!File.Exists(path))
+                        {
+                            // Create a file to write to.
+                            using (StreamWriter sw = File.CreateText(path))
+                            {
+                                sw.WriteLine(txtMainArea.Text);
+                            }
+                        }
+                    }
+                }
+
+                using (StreamReader readLines = File.OpenText(fileDialog.FileName))
+                {
+                    string line;
+                    string getAllLines = "";
+                    while((line = readLines.ReadLine()) != null)
+                    {
+                        getAllLines += line;
+                        getAllLines += Environment.NewLine;
+                    }
+                    txtMainArea.Text = getAllLines;
+                    this.Title = System.IO.Path.GetFileNameWithoutExtension(fileDialog.FileName);
+                }
+            }
+        }
+
+        private void MenuNew_Click(object sender, RoutedEventArgs e)
+        {
+            string message = "Czy zapisac ten plik";
+            var result = MessageBox.Show(message, "Save file", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+            if (result.ToString() == "Yes")
+            {
+                Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+                saveFileDialog.FileName = this.Title;
+                saveFileDialog.DefaultExt = ".txt";
+                var Saveresult = saveFileDialog.ShowDialog();
+                
+                if (Saveresult == true)
+                {
+                    string path = saveFileDialog.FileName;
+                    if (!File.Exists(path))
+                    {
+                        // Create a file to write to.
+                        using (StreamWriter sw = File.CreateText(path))
+                        {
+                            sw.WriteLine(txtMainArea.Text);
+                        }
+                    }
+                }
+            }
+            
+            txtMainArea.Text = string.Empty;
+            this.Title = "New";
+        }
+
+        private void MenuSave_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.FileName = this.Title;
+            saveFileDialog.DefaultExt = ".txt";
+            var Saveresult = saveFileDialog.ShowDialog();
+            if (Saveresult == true)
+            {
+                string path = saveFileDialog.FileName;
+                if (!File.Exists(path))
+                {
+                    // Create a file to write to.
+                    using (StreamWriter sw = File.CreateText(path))
+                    {
+                        sw.WriteLine(txtMainArea.Text);
+                    }
+                }
+
+                this.Title = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
+            }
         }
     }
 }

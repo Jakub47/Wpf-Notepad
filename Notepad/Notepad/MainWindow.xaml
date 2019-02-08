@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="New" Height="450" Width="800">
 
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_New" />
-                <MenuItem Header="_Open" />
-                <MenuItem Header="_Save" />
+                <MenuItem Name="MenuNew" Header="_New" Click="MenuNew_Click" />
+                <MenuItem Name="MenuOpen"  Header="_Open" Click="MenuOpen_Click" />
+                <MenuItem Name="MenuSave" Header="_Save" Click="MenuSave_Click"/>
                 <Separator />
-                <MenuItem Header="_Exit" />
+                <MenuItem Name="MenuExit" Header="_Exit" />
             </MenuItem>
 
             <MenuItem Header="_Edit">
