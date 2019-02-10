@@ -164,5 +164,39 @@ namespace Notepad
                 this.Title = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
             }
         }
+
+        private void MenuExit_Click(object sender, RoutedEventArgs e)
+        {
+            var c = txtMainArea.Text != string.Empty;
+            bool  g = this.Title.ElementAt(this.Title.Length - 1) == '*';
+
+            if (c || g )
+            {
+                string message = "Czy zapisac ten plik";
+                var result = MessageBox.Show(message, "Save file", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if (result.ToString() == "Yes")
+                {
+                    Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+                    saveFileDialog.FileName = this.Title;
+                    saveFileDialog.DefaultExt = ".txt";
+                    var Saveresult = saveFileDialog.ShowDialog();
+
+                    if (Saveresult == true)
+                    {
+                        string path = saveFileDialog.FileName;
+                        if (!File.Exists(path))
+                        {
+                            // Create a file to write to.
+                            using (StreamWriter sw = File.CreateText(path))
+                            {
+                                sw.WriteLine(txtMainArea.Text);
+                            }
+                        }
+                    }
+                }
+            }
+            this.Close();
+        }
     }
 }

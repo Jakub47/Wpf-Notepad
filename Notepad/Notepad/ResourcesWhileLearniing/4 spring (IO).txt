@@ -1,0 +1,15 @@
+https://www.c-sharpcorner.com/uploadfile/mahesh/scrollbar-in-wpf/
+https://docs.microsoft.com/pl-pl/dotnet/framework/wpf/controls/scrollviewer-overview
+https://docs.microsoft.com/pl-pl/dotnet/api/system.windows.controls.scrollviewer?view=netframework-4.7.2
+https://docs.microsoft.com/en-us/dotnet/api/system.io.fileshare?view=netframework-4.7.2
+https://docs.microsoft.com/en-us/dotnet/api/system.io.filestream?view=netframework-4.7.2
+https://stackoverflow.com/questions/10315188/open-file-dialog-and-select-a-file-using-wpf-controls-and-c-sharp
+https://docs.microsoft.com/en-us/dotnet/api/microsoft.win32.openfiledialog?view=netframework-4.7.2
+https://docs.microsoft.com/en-us/dotnet/api/microsoft.win32.savefiledialog?view=netframework-4.7.2
+https://docs.microsoft.com/en-us/dotnet/api/microsoft.win32.commondialog.showdialog?view=netframework-4.7.2#Microsoft_Win32_CommonDialog_ShowDialog
+https://docs.microsoft.com/en-us/dotnet/api/index?view=netframework-4.7.2
+https://docs.microsoft.com/en-us/dotnet/api/system.windows.forms.messagebox?view=netframework-4.7.2
+https://docs.microsoft.com/pl-pl/dotnet/api/system.windows.forms.openfiledialog?view=netframework-4.7.2
+https://stackoverflow.com/questions/42077388/type-used-in-a-using-statement-must-be-implicitly-convertible-to-system-idispos/42078560
+https://stackoverflow.com/questions/28437096/how-do-i-programmatically-change-the-title-in-a-wpf-window
+https://docs.microsoft.com/en-us/dotnet/api/system.io.path?view=netframework-4.7.2

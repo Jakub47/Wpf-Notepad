@@ -14,7 +14,7 @@
                 <MenuItem Name="MenuOpen"  Header="_Open" Click="MenuOpen_Click" />
                 <MenuItem Name="MenuSave" Header="_Save" Click="MenuSave_Click"/>
                 <Separator />
-                <MenuItem Name="MenuExit" Header="_Exit" />
+                <MenuItem Name="MenuExit" Header="_Exit" Click="MenuExit_Click" />
             </MenuItem>
 
             <MenuItem Header="_Edit">
