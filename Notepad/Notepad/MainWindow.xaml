@@ -18,9 +18,9 @@
             </MenuItem>
 
             <MenuItem Header="_Edit">
-                <MenuItem Header="_Find" />
+                <MenuItem Name="MenuFind" Header="_Find" Click="MenuFind_Click"/>
                 <MenuItem Header="_Replace" />
-                <MenuItem Header="_SelectAll" />
+                <MenuItem Name="MenuSelectAll" Header="_SelectAll" Click="MenuSelectAll_Click" />
             </MenuItem>
 
             <MenuItem Header="_Format">
@@ -47,7 +47,7 @@
                 <TextBlock Name="txtBasicInfo"/>
             </StatusBarItem>
         </StatusBar>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer Name="MainScroll" HorizontalScrollBarVisibility="Auto">
             <TextBox TextWrapping="NoWrap" AcceptsReturn="True" Name="txtMainArea" FontSize="18" FontFamily="Linux Libertine Display G" KeyDown="TextBox_KeyDown" SelectionChanged="TextBox_SelectionChanged" TextChanged="TxtMainArea_TextChanged">
                 <TextBox.ContextMenu>
                     <ContextMenu>

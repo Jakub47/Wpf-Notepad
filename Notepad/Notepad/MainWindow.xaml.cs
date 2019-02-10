@@ -198,5 +198,16 @@ namespace Notepad
             }
             this.Close();
         }
+
+        private void MenuSelectAll_Click(object sender, RoutedEventArgs e)
+        {
+            txtMainArea.SelectAll();
+        }
+
+        private void MenuFind_Click(object sender, RoutedEventArgs e)
+        {
+            //MainScroll.Focus();
+            //MainScroll.
+        }
     }
 }
