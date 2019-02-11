@@ -206,8 +206,40 @@ namespace Notepad
 
         private void MenuFind_Click(object sender, RoutedEventArgs e)
         {
+            List<Word> words = new List<Word>();
+            //txtMainArea.Text.Split(new[] { Environment.NewLine },StringSplitOptions.None).ToList().ForEach(a => words.Add(new Word(a)));
+
+            using (System.IO.StringReader reader = new System.IO.StringReader(txtMainArea.Text))
+            {
+                while(true)
+                {
+                    var temp = reader.ReadLine();
+                    if(temp != null)
+                    {
+                        words.Add(new Word(temp));
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            Console.WriteLine("c");
+            //int numberOfColumns = txtMainArea.LineCount;
+
+
+            //for(int i = 0;i<=numberOfColumns;i++)
+            //{
+            //   //var c =  txtMainArea.GetCharacterIndexFromLineIndex(i);
+            //}
+
             //MainScroll.Focus();
-            //MainScroll.
+            //MainScroll.HorizontalOffset
+            //MainScroll.LineDown();
+            //MainScroll.ScrollToVerticalOffset();
+            //txtMainArea.Text.First(a => a == 'f');
+            //MainScroll.ScrollToVerticalOffset(7);
         }
     }
 }

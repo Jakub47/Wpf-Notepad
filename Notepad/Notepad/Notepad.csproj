@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="CursorProp.cs" />
     <Compile Include="TextProp.cs" />
+    <Compile Include="Word.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

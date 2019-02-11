@@ -48,7 +48,7 @@
             </StatusBarItem>
         </StatusBar>
         <ScrollViewer Name="MainScroll" HorizontalScrollBarVisibility="Auto">
-            <TextBox TextWrapping="NoWrap" AcceptsReturn="True" Name="txtMainArea" FontSize="18" FontFamily="Linux Libertine Display G" KeyDown="TextBox_KeyDown" SelectionChanged="TextBox_SelectionChanged" TextChanged="TxtMainArea_TextChanged">
+            <TextBox TextWrapping="Wrap" AcceptsReturn="True" Name="txtMainArea" FontSize="18" FontFamily="Linux Libertine Display G" KeyDown="TextBox_KeyDown" SelectionChanged="TextBox_SelectionChanged" TextChanged="TxtMainArea_TextChanged">
                 <TextBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Command="Cut">
