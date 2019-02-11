@@ -225,7 +225,25 @@ namespace Notepad
                 }
             }
 
-            Console.WriteLine("c");
+            int index = 0;
+            //Lista stringow w kazdej liscie poszukaj zadanej frazy. I wez pierwszy element
+            foreach(var word in words)
+            {
+                if(word.FindElement("F"))
+                {
+                    break;
+                }
+                index++;
+            }
+            //index +=1;
+            
+            for(int i = 0;i<index;i++)
+            {
+                MainScroll.LineDown();
+            }
+
+            txtMainArea.Select(txtMainArea.Text.IndexOf("F"), 1);
+
             //int numberOfColumns = txtMainArea.LineCount;
 
 

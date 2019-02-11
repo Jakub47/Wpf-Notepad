@@ -57,6 +57,9 @@
     </ApplicationDefinition>
     <Compile Include="CursorProp.cs" />
     <Compile Include="TextProp.cs" />
+    <Compile Include="Views\FindAndReplace.xaml.cs">
+      <DependentUpon>FindAndReplace.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Word.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -70,6 +73,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\FindAndReplace.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
