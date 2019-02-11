@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Notepad.Views;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,8 @@ namespace Notepad
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Window window = new Window();
+        public string temporaryString { get; set; } = "";
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +41,7 @@ namespace Notepad
             CursorProp.row = txtMainArea.GetLineIndexFromCharacterIndex(txtMainArea.CaretIndex);
             CursorProp.col = txtMainArea.CaretIndex - txtMainArea.GetCharacterIndexFromLineIndex(CursorProp.row);
             ChangeStatusInfo();
-
+            
             //txtBasicInfo.Text = "Line " + (row + 1) + ", Char " + (col + 1);
         }
 
@@ -206,44 +209,45 @@ namespace Notepad
 
         private void MenuFind_Click(object sender, RoutedEventArgs e)
         {
-            List<Word> words = new List<Word>();
-            //txtMainArea.Text.Split(new[] { Environment.NewLine },StringSplitOptions.None).ToList().ForEach(a => words.Add(new Word(a)));
+            //List<Word> words = new List<Word>();
+            ////txtMainArea.Text.Split(new[] { Environment.NewLine },StringSplitOptions.None).ToList().ForEach(a => words.Add(new Word(a)));
 
-            using (System.IO.StringReader reader = new System.IO.StringReader(txtMainArea.Text))
-            {
-                while(true)
-                {
-                    var temp = reader.ReadLine();
-                    if(temp != null)
-                    {
-                        words.Add(new Word(temp));
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
+            //using (System.IO.StringReader reader = new System.IO.StringReader(txtMainArea.Text))
+            //{
+            //    while(true)
+            //    {
+            //        var temp = reader.ReadLine();
+            //        if(temp != null)
+            //        {
+            //            words.Add(new Word(temp));
+            //        }
+            //        else
+            //        {
+            //            break;
+            //        }
+            //    }
+            //}
 
-            int index = 0;
-            //Lista stringow w kazdej liscie poszukaj zadanej frazy. I wez pierwszy element
-            foreach(var word in words)
-            {
-                if(word.FindElement("F"))
-                {
-                    break;
-                }
-                index++;
-            }
-            //index +=1;
+            //int index = 0;
+            ////Lista stringow w kazdej liscie poszukaj zadanej frazy. I wez pierwszy element
+            //foreach(var word in words)
+            //{
+            //    if(word.FindElement("F"))
+            //    {
+            //        break;
+            //    }
+            //    index++;
+            //}
+            ////index +=1;
+
+            //for(int i = 0;i<index;i++)
+            //{
+            //    MainScroll.LineDown();
+            //}
+
+            FindAndReplace findAndReplace = new FindAndReplace();
+            findAndReplace.Show();
             
-            for(int i = 0;i<index;i++)
-            {
-                MainScroll.LineDown();
-            }
-
-            txtMainArea.Select(txtMainArea.Text.IndexOf("F"), 1);
-
             //int numberOfColumns = txtMainArea.LineCount;
 
 
@@ -258,6 +262,77 @@ namespace Notepad
             //MainScroll.ScrollToVerticalOffset();
             //txtMainArea.Text.First(a => a == 'f');
             //MainScroll.ScrollToVerticalOffset(7);
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            foreach(Window win in App.Current.Windows)
+            {
+                win.Close();
+            }
+        }
+
+        public void FindText(string text)
+        {
+            if (txtMainArea.Text != String.Empty)
+            {
+                txtMainArea.Select(txtMainArea.Text.IndexOf(text), text.Length);
+            }
+        }
+
+        public void FindNext(string text)
+        {
+            //List<Word> words = new List<Word>();
+
+            if (temporaryString == "")
+            {
+                using (System.IO.StringReader reader = new System.IO.StringReader(txtMainArea.Text))
+                {
+                    while (true)
+                    {
+                        var temp = reader.ReadLine();
+                        if (temp != null)
+                        {
+                            temporaryString += temp;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+            } 
+
+            if (txtMainArea.SelectedText == String.Empty)
+            {
+                if (txtMainArea.Text != String.Empty)
+                {
+                    txtMainArea.Select(txtMainArea.Text.IndexOf(text), text.Length);
+                }
+            }
+            else
+            {
+                //Now we know what some text is selected
+                //Get the index of selected item
+                int index = txtMainArea.Text.IndexOf(txtMainArea.SelectedText);
+
+                //Remove the selected item from temprorary rext
+                temporaryString.Remove(index, text.Length);
+
+                index = temporaryString.IndexOf(text) + text.Length;
+
+                txtMainArea.Select(index, text.Length);
+            }
+            
+
+           
+
+            
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            window = this;
         }
     }
 }

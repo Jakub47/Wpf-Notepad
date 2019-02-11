@@ -1,11 +1,11 @@
-﻿<Window x:Class="Notepad.MainWindow"
+﻿<Window x:Name="Window1" x:Class="Notepad.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad"
         mc:Ignorable="d"
-        Title="New" Height="450" Width="800">
+        Title="New" Height="450" Width="800" Closed="Window_Closed" Loaded="Window_Loaded">
 
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
@@ -48,7 +48,7 @@
             </StatusBarItem>
         </StatusBar>
         <ScrollViewer Name="MainScroll" HorizontalScrollBarVisibility="Auto">
-            <TextBox TextWrapping="Wrap" AcceptsReturn="True" Name="txtMainArea" FontSize="18" FontFamily="Linux Libertine Display G" KeyDown="TextBox_KeyDown" SelectionChanged="TextBox_SelectionChanged" TextChanged="TxtMainArea_TextChanged">
+            <TextBox TextWrapping="Wrap" AcceptsReturn="True" Name="txtMainArea" x:FieldModifier="public" FontSize="18" FontFamily="Linux Libertine Display G" KeyDown="TextBox_KeyDown" SelectionChanged="TextBox_SelectionChanged" TextChanged="TxtMainArea_TextChanged">
                 <TextBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Command="Cut">
