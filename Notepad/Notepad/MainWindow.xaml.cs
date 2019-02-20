@@ -286,48 +286,44 @@ namespace Notepad
 
             if (temporaryString == "")
             {
-                using (System.IO.StringReader reader = new System.IO.StringReader(txtMainArea.Text))
-                {
-                    while (true)
-                    {
-                        var temp = reader.ReadLine();
-                        if (temp != null)
-                        {
-                            temporaryString += temp;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                }
-            } 
-
-            if (txtMainArea.SelectedText == String.Empty)
-            {
-                if (txtMainArea.Text != String.Empty)
-                {
-                    txtMainArea.Select(txtMainArea.Text.IndexOf(text), text.Length);
-                }
+                
             }
-            else
-            {
-                //Now we know what some text is selected
-                //Get the index of selected item
-                int index = txtMainArea.Text.IndexOf(txtMainArea.SelectedText);
 
-                //Remove the selected item from temprorary rext
-                temporaryString.Remove(index, text.Length);
 
-                index = temporaryString.IndexOf(text) + text.Length;
+            //Get Text
+            string tempororary = txtMainArea.Text;
+            //Get Selectected Text
+            int selectedTextPosition = txtMainArea.Text.IndexOf(txtMainArea.SelectedText);
 
-                txtMainArea.Select(index, text.Length);
-            }
+            int c = txtMainArea.SelectionStart;
             
+            //if(selectedTextPosition.ToLower() == text.ToLower())
+            //{
+            //    tempororary = tempororary.Remove(tempororary.IndexOf(text), text.Length);
+            //    txtMainArea.Select(tempororary.IndexOf(text) + 1, text.Length);
+            //}
 
-           
 
-            
+            //if (txtMainArea.SelectedText == String.Empty)
+            //{
+            //    if (txtMainArea.Text != String.Empty)
+            //    {
+            //        txtMainArea.Select(txtMainArea.Text.IndexOf(text), text.Length);
+            //    }
+            //}
+            //else
+            //{
+            //    //Now we know what some text is selected
+            //    //Get the index of selected item
+            //    int index = txtMainArea.Text.IndexOf(txtMainArea.SelectedText);
+
+            //    //Remove the selected item from temprorary rext
+            //    temporaryString.Remove(index, text.Length);
+
+            //    index = temporaryString.IndexOf(text) + text.Length;
+
+            //    txtMainArea.Select(index, text.Length);
+            //}
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
