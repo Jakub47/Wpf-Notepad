@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,9 +26,12 @@ namespace Notepad
     {
         public static Window window = new Window();
         public string temporaryString { get; set; } = "";
+        public int IndexOfSelection { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            IndexOfSelection = -1;
             txtBasicInfo.Text = "Line 0 Char 0 Letters 0 Vowels a e i o u";
         }
 
@@ -282,20 +286,48 @@ namespace Notepad
 
         public void FindNext(string text)
         {
-            //List<Word> words = new List<Word>();
-
-            if (temporaryString == "")
+            if (txtMainArea.SelectedText != string.Empty && txtMainArea.SelectedText.Contains(text))
             {
-                
+                Regex rg = new Regex(@"[" + text + @"]",RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                MatchCollection matches = rg.Matches(txtMainArea.Text);
+                foreach (Match match in matches)
+                {
+                    GroupCollection groups = match.Groups;
+                    for (int i = 0; i < groups.Count; i++)
+                    {
+                        //All search occurnes of given index;
+                        //groups[i].Value returns value
+                        //groups[i].Index returns index where text starts
+                        if(IndexOfSelection == -1)
+                        {
+                            IndexOfSelection = groups[i].Index;
+                            txtMainArea.Select(IndexOfSelection, text.Length);
+                        }
+                        else
+                        {
+                            if(i >= IndexOfSelection)
+                            {
+                                IndexOfSelection = groups[i].Index;
+                                txtMainArea.Select(IndexOfSelection, text.Length);
+                            }
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                IndexOfSelection = -1;
+                FindText(text);
             }
 
 
-            //Get Text
-            string tempororary = txtMainArea.Text;
-            //Get Selectected Text
-            int selectedTextPosition = txtMainArea.Text.IndexOf(txtMainArea.SelectedText);
+            ////Get Text
+            //string tempororary = txtMainArea.Text;
+            ////Get Selectected Text
+            //int selectedTextPosition = txtMainArea.Text.IndexOf(txtMainArea.SelectedText);
 
-            int c = txtMainArea.SelectionStart;
+            //int c = txtMainArea.SelectionStart;
             
             //if(selectedTextPosition.ToLower() == text.ToLower())
             //{
