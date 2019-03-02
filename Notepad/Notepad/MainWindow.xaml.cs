@@ -26,13 +26,17 @@ namespace Notepad
     {
         public static Window window = new Window();
         public string temporaryString { get; set; } = "";
-        public int IndexOfSelection { get; set; }
+        public int CurrentSelectedStartIndex { get; set; }
+        public bool FirstElementSelected { get; set; }
+        public SelectedElement SelectedElement { get; set; }
+        public SelectedText SelectedText { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            IndexOfSelection = -1;
+            CurrentSelectedStartIndex = -1;
             txtBasicInfo.Text = "Line 0 Char 0 Letters 0 Vowels a e i o u";
+            SelectedElement = new SelectedElement();
         }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
@@ -45,7 +49,8 @@ namespace Notepad
             CursorProp.row = txtMainArea.GetLineIndexFromCharacterIndex(txtMainArea.CaretIndex);
             CursorProp.col = txtMainArea.CaretIndex - txtMainArea.GetCharacterIndexFromLineIndex(CursorProp.row);
             ChangeStatusInfo();
-            
+            CurrentSelectedStartIndex = txtMainArea.SelectionStart;
+
             //txtBasicInfo.Text = "Line " + (row + 1) + ", Char " + (col + 1);
         }
 
@@ -213,6 +218,9 @@ namespace Notepad
 
         private void MenuFind_Click(object sender, RoutedEventArgs e)
         {
+            
+
+
             //List<Word> words = new List<Word>();
             ////txtMainArea.Text.Split(new[] { Environment.NewLine },StringSplitOptions.None).ToList().ForEach(a => words.Add(new Word(a)));
 
@@ -281,45 +289,91 @@ namespace Notepad
             if (txtMainArea.Text != String.Empty)
             {
                 txtMainArea.Select(txtMainArea.Text.IndexOf(text), text.Length);
+                FirstElementSelected = true;
             }
         }
 
         public void FindNext(string text)
         {
-            if (txtMainArea.SelectedText != string.Empty && txtMainArea.SelectedText.Contains(text))
-            {
-                Regex rg = new Regex(@"[" + text + @"]",RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                MatchCollection matches = rg.Matches(txtMainArea.Text);
-                foreach (Match match in matches)
-                {
-                    GroupCollection groups = match.Groups;
-                    for (int i = 0; i < groups.Count; i++)
-                    {
-                        //All search occurnes of given index;
-                        //groups[i].Value returns value
-                        //groups[i].Index returns index where text starts
-                        if(IndexOfSelection == -1)
-                        {
-                            IndexOfSelection = groups[i].Index;
-                            txtMainArea.Select(IndexOfSelection, text.Length);
-                        }
-                        else
-                        {
-                            if(i >= IndexOfSelection)
-                            {
-                                IndexOfSelection = groups[i].Index;
-                                txtMainArea.Select(IndexOfSelection, text.Length);
-                            }
-                        }
-                    }
-                }
+            //Zabezpieczys sie poprzez sprawdzenie czy zaznaczony text to ten ktory jest wpisany w polu
+            //Nie zapomniec o tym by sprawdzic czy uzytkownik nie zaznaczyl juz samym jakiegos stringa takiego samoego jak
+            //Wpisanego w polu!!!
 
-            }
-            else
+            //Najpierw sprawdzamy czy coś jest zaznaczone jesli nie to wywolujemy po prostu funkcje FindText
+            if(txtMainArea.Text != string.Empty && txtMainArea.SelectedText != string.Empty 
+                && (txtMainArea.SelectedText.Length == text.Length || txtMainArea.SelectedText == text))
             {
-                IndexOfSelection = -1;
+                if(FirstElementSelected)
+                {
+                    //Wiemy ze cos jest zaznaczone i ze jest to pierwszy element
+                    //SelectedElement = new SelectedElement(text,txtMainArea.Text.IndexOf(text));
+                    FirstElementSelected = false;
+                    SelectedText = new SelectedText(txtMainArea.Text, text, txtMainArea.Text.IndexOf(text));
+                    //Usun ten pierwszy Element z obiektu zaktualizuj jego wewnetrzna klase i tym samym zaktualzuj selected text
+                    SelectedText.DeleteFromTextNextIndex();
+                    txtMainArea.Select(SelectedText.CurrentIndex, text.Length);
+                }
+                else
+                {
+                    //Sprawdz czy ten element nie jest Ostatnim
+                    if(SelectedText.IsLastIndex())
+                    {
+                        FindText(text);
+                        return;
+                    }
+                    //Wiemy ze cos jest zaznaczone i ze jest to juz kolejny Element
+                    SelectedText.DeleteFromTextNextIndex();
+                    txtMainArea.Select(SelectedText.CurrentIndex, text.Length);
+                }
+            }
+            else if(txtMainArea.Text != string.Empty && txtMainArea.SelectedText == string.Empty)
+            {
                 FindText(text);
             }
+            
+            //Na poczatku bedzie 0 wiemy ze bedzie 0 nastepnie inne indexy czyli poprzedni i poprzednie indexy nas nie obchodzą.
+            //Pozycja nastepna od wartosci w zmiennej CurrentSelectedStartIndex!
+
+            //if (txtMainArea.SelectedText != string.Empty && txtMainArea.SelectedText.Contains(text))
+            //{
+            //    Regex rg = new Regex(@"[" + text + @"]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            //    MatchCollection matches = rg.Matches(txtMainArea.Text);
+            //    foreach (Match match in matches)
+            //    {
+            //        if (match.Index >= CurrentSelectedStartIndex)
+            //        {
+
+
+            //            GroupCollection groups = match.Groups;
+            //            for (int i = 0; i < groups.Count; i++)
+            //            {
+            //                var c = groups[i].Index;
+            //                //All search occurnes of given index;
+            //                //groups[i].Value returns value
+            //                //groups[i].Index returns index where text starts
+            //                if (IndexOfSelection == -1)
+            //                {
+            //                    IndexOfSelection = groups[i].Index;
+            //                    txtMainArea.Select(IndexOfSelection, text.Length);
+            //                }
+            //                else
+            //                {
+            //                    if (i >= IndexOfSelection)
+            //                    {
+            //                        IndexOfSelection = groups[i].Index;
+            //                        txtMainArea.Select(IndexOfSelection, text.Length);
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+
+            //}
+            //else
+            //{
+            //    IndexOfSelection = -1;
+            //    FindText(text);
+            //}
 
 
             ////Get Text
@@ -328,7 +382,7 @@ namespace Notepad
             //int selectedTextPosition = txtMainArea.Text.IndexOf(txtMainArea.SelectedText);
 
             //int c = txtMainArea.SelectionStart;
-            
+
             //if(selectedTextPosition.ToLower() == text.ToLower())
             //{
             //    tempororary = tempororary.Remove(tempororary.IndexOf(text), text.Length);

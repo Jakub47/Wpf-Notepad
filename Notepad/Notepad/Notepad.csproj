@@ -56,6 +56,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CursorProp.cs" />
+    <Compile Include="SelectedElement.cs" />
+    <Compile Include="SelectedText.cs" />
     <Compile Include="TextProp.cs" />
     <Compile Include="Views\FindAndReplace.xaml.cs">
       <DependentUpon>FindAndReplace.xaml</DependentUpon>
