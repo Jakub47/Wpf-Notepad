@@ -29,8 +29,10 @@
             </MenuItem>
 
             <MenuItem Header="_Style">
-                <MenuItem Header="_Change background" />
-                <MenuItem Header="_Change font color" />
+                <MenuItem Header="_Change background" x:Name="BackgroundColors">
+                    
+                </MenuItem>
+                <MenuItem Header="_Change font color" x:Name="ForegroundColors"/>
                 <MenuItem Header="_Change font size" />
                 <Separator />
                 <MenuItem Header="_Exit" />

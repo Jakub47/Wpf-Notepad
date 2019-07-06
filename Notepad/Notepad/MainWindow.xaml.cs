@@ -30,14 +30,56 @@ namespace Notepad
         public bool FirstElementSelected { get; set; }
         public SelectedElement SelectedElement { get; set; }
         public SelectedText SelectedText { get; set; }
+        public MenuItem BackgroundColorsMenuItem { get; set; }
+        public MenuItem ForeGroundColorsMenuItem { get; set; }
+        private List<string> _colors;
+
 
         public MainWindow()
         {
             InitializeComponent();
+            _colors = new List<string>();
+            _colors.Add("Black"); _colors.Add("Blue"); _colors.Add("Black"); _colors.Add("Brown"); _colors.Add("Red"); _colors.Add("Gold");
+
             CurrentSelectedStartIndex = -1;
             txtBasicInfo.Text = "Line 0 Char 0 Letters 0 Vowels a e i o u";
             SelectedElement = new SelectedElement();
+            BackgroundColorsMenuItem = Window1.FindName("BackgroundColors") as MenuItem;
+            ForeGroundColorsMenuItem = Window1.FindName("ForegroundColors") as MenuItem;
+
+            foreach (string color in _colors)
+            {
+                MenuItem menuItemBackground = new MenuItem() { Header = color};
+                menuItemBackground.Click += changeBackground;
+                BackgroundColorsMenuItem.Items.Add(menuItemBackground);
+
+                MenuItem menuItemForeground = new MenuItem() { Header = color };
+                menuItemForeground.Click += changeForeground;
+                ForeGroundColorsMenuItem.Items.Add(menuItemForeground);
+            }
+
+
+            BackgroundColors.Items.Add(new MenuItem() { Header = "Color1" });
         }
+
+        private void changeBackground(object sender,EventArgs e)
+        {
+            MenuItem item = (MenuItem)sender;
+            BrushConverter c = new BrushConverter();
+            SolidColorBrush b =  c.ConvertFromString(item.Header.ToString()) as SolidColorBrush;
+            txtMainArea.Background = b;
+
+            //txtMainArea.Foreground = Brushes.Red;
+        }
+
+        public void changeForeground(object sender, EventArgs e)
+        {
+            MenuItem item = (MenuItem)sender;
+            BrushConverter c = new BrushConverter();
+            SolidColorBrush b = c.ConvertFromString(item.Header.ToString()) as SolidColorBrush;
+            txtMainArea.Foreground = b;
+        }
+
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -46,6 +88,7 @@ namespace Notepad
 
         private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
+            
             CursorProp.row = txtMainArea.GetLineIndexFromCharacterIndex(txtMainArea.CaretIndex);
             CursorProp.col = txtMainArea.CaretIndex - txtMainArea.GetCharacterIndexFromLineIndex(CursorProp.row);
             ChangeStatusInfo();
