@@ -121,5 +121,8 @@
   <ItemGroup>
     <Folder Include="ResourcesWhileLearniing\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\checked.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -33,14 +33,14 @@ namespace Notepad
         public MenuItem BackgroundColorsMenuItem { get; set; }
         public MenuItem ForeGroundColorsMenuItem { get; set; }
         private List<string> _colors;
-
+        private bool _txtMainAreaWordMapped;
 
         public MainWindow()
         {
             InitializeComponent();
             _colors = new List<string>();
             _colors.Add("Black"); _colors.Add("Blue"); _colors.Add("Black"); _colors.Add("Brown"); _colors.Add("Red"); _colors.Add("Gold");
-
+            _txtMainAreaWordMapped = false;
             CurrentSelectedStartIndex = -1;
             txtBasicInfo.Text = "Line 0 Char 0 Letters 0 Vowels a e i o u";
             SelectedElement = new SelectedElement();
@@ -68,7 +68,6 @@ namespace Notepad
             BrushConverter c = new BrushConverter();
             SolidColorBrush b =  c.ConvertFromString(item.Header.ToString()) as SolidColorBrush;
             txtMainArea.Background = b;
-
             //txtMainArea.Foreground = Brushes.Red;
         }
 
@@ -458,6 +457,26 @@ namespace Notepad
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             window = this;
+        }
+
+        private void MenuWordMap_Click(object sender, RoutedEventArgs e)
+        {
+            _txtMainAreaWordMapped = !_txtMainAreaWordMapped;
+            //ScrollViewer MainScroller = Window1.FindName("MainScroll") as ScrollViewer; 
+            
+
+            if (_txtMainAreaWordMapped)
+            {
+                WordMapIcon.Visibility  = Visibility.Visible;
+                MainScroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                txtMainArea.TextWrapping = TextWrapping.Wrap;
+            }
+            else
+            {
+                WordMapIcon.Visibility = Visibility.Hidden;
+                MainScroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+                txtMainArea.TextWrapping = TextWrapping.NoWrap;
+            }
         }
     }
 }

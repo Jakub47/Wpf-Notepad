@@ -24,7 +24,11 @@
             </MenuItem>
 
             <MenuItem Header="_Format">
-                <MenuItem Header="_Word map" />
+                <MenuItem Header="Word map" Click="MenuWordMap_Click" >
+                    <MenuItem.Icon>
+                        <Image x:Name="WordMapIcon" Source="/Images/checked.png"  Visibility="Hidden" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="_Change font" />
             </MenuItem>
 
@@ -50,7 +54,7 @@
             </StatusBarItem>
         </StatusBar>
         <ScrollViewer Name="MainScroll" HorizontalScrollBarVisibility="Auto">
-            <TextBox TextWrapping="Wrap" AcceptsReturn="True" Name="txtMainArea" x:FieldModifier="public" FontSize="18" FontFamily="Linux Libertine Display G" KeyDown="TextBox_KeyDown" SelectionChanged="TextBox_SelectionChanged" TextChanged="TxtMainArea_TextChanged">
+            <TextBox TextWrapping="WrapWithOverflow" AcceptsReturn="True" Name="txtMainArea" x:FieldModifier="public" FontSize="18" FontFamily="Linux Libertine Display G" KeyDown="TextBox_KeyDown" SelectionChanged="TextBox_SelectionChanged" TextChanged="TxtMainArea_TextChanged">
                 <TextBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Command="Cut">
