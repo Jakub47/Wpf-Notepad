@@ -29,7 +29,7 @@
                         <Image x:Name="WordMapIcon" Source="/Images/checked.png"  Visibility="Hidden" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Change font" />
+                <MenuItem Header="Change font style" x:Name="MenuItemFontStyke" Click="MenuItemFontStyke_Click" />
             </MenuItem>
 
             <MenuItem Header="_Style">

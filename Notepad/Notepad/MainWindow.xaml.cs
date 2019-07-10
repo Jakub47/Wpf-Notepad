@@ -32,8 +32,10 @@ namespace Notepad
         public SelectedText SelectedText { get; set; }
         public MenuItem BackgroundColorsMenuItem { get; set; }
         public MenuItem ForeGroundColorsMenuItem { get; set; }
+       
         private List<string> _colors;
         private bool _txtMainAreaWordMapped;
+
 
         public MainWindow()
         {
@@ -83,6 +85,13 @@ namespace Notepad
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             
+        }
+
+        public void ChangeFontStyle(string fontType,int size)
+        {
+            FontFamilyConverter converter = new FontFamilyConverter();
+            txtMainArea.FontFamily = converter.ConvertFromString(fontType) as FontFamily;
+            txtMainArea.FontSize = size;
         }
 
         private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
@@ -457,10 +466,15 @@ namespace Notepad
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             window = this;
+
+          
         }
 
         private void MenuWordMap_Click(object sender, RoutedEventArgs e)
         {
+
+            Console.WriteLine("Yos");
+
             _txtMainAreaWordMapped = !_txtMainAreaWordMapped;
             //ScrollViewer MainScroller = Window1.FindName("MainScroll") as ScrollViewer; 
             
@@ -477,6 +491,12 @@ namespace Notepad
                 MainScroll.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
                 txtMainArea.TextWrapping = TextWrapping.NoWrap;
             }
+        }
+
+        private void MenuItemFontStyke_Click(object sender, RoutedEventArgs e)
+        {
+            FontInfo fontInfo = new FontInfo();
+            fontInfo.Show();
         }
     }
 }
