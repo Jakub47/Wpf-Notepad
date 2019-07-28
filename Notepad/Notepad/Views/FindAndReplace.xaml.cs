@@ -20,9 +20,12 @@ namespace Notepad.Views
     /// </summary>
     public partial class FindAndReplace : Window
     {
+        public int Counter { get; set; }
+
         public FindAndReplace()
         {
             InitializeComponent();
+            Counter = -1;
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -33,6 +36,7 @@ namespace Notepad.Views
         //Find
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Counter = 0;
             string text = textToFind.Text;
             foreach (Window window in Application.Current.Windows)
             {
@@ -48,26 +52,32 @@ namespace Notepad.Views
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             string text = textToFind.Text;
+            Counter++;
             foreach (Window window in Application.Current.Windows)
             {
                 if (window.GetType() == typeof(MainWindow))
                 {
                     (window as MainWindow).Activate();
-                    (window as MainWindow).FindNext(text);
+                    (window as MainWindow).FindNextText(text);
                 }
             }
         }
 
         private void Replace_Click(object sender, RoutedEventArgs e)
         {
-
+            Counter = -1;
         }
 
         private void ReplaceAll_Click(object sender, RoutedEventArgs e)
         {
-
+            Counter = -1;
         }
 
-        
+        private void TextToFind_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Counter = -1;
+        }
+
+
     }
 }

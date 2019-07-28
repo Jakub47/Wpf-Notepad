@@ -48,7 +48,7 @@ namespace Notepad
             SelectedElement = new SelectedElement();
             BackgroundColorsMenuItem = Window1.FindName("BackgroundColors") as MenuItem;
             ForeGroundColorsMenuItem = Window1.FindName("ForegroundColors") as MenuItem;
-
+            
             foreach (string color in _colors)
             {
                 MenuItem menuItemBackground = new MenuItem() { Header = color};
@@ -96,7 +96,14 @@ namespace Notepad
 
         private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(FindAndReplace))
+                {
+                    (window as FindAndReplace).Counter = 0;
+                }
+            }
+
             CursorProp.row = txtMainArea.GetLineIndexFromCharacterIndex(txtMainArea.CaretIndex);
             CursorProp.col = txtMainArea.CaretIndex - txtMainArea.GetCharacterIndexFromLineIndex(CursorProp.row);
             ChangeStatusInfo();
@@ -334,6 +341,119 @@ namespace Notepad
                 win.Close();
             }
         }
+
+        public void FindFirst(string text)
+        {
+            if (txtMainArea.Text != String.Empty)
+            {
+                string pattern = @"\b(\w*work\w*)\b";
+                string input = "This this work a nice day. What about this? This tastes good. I work a a dog.";
+                int index = 0;
+                foreach (Match match in Regex.Matches(input, pattern, RegexOptions.IgnoreCase))
+                {
+                    if (index == 0) txtMainArea.Select(match.Index, text.Length);
+                    //txtMainArea.Select(txtMainArea.Text.IndexOf(text), text.Length);
+                    //match.Index;
+                }
+
+
+                //FirstElementSelected = true;
+            }
+        }
+        
+        public void FindNextText(string text)
+        {
+            if (txtMainArea.Text != String.Empty)
+            {
+                string textFromCursor = "";
+                string beforeCursor = "";
+                int indexToSelect = 0;
+
+                //Get substring from position from cursor to end!
+                //string textFromCursor = txtMainArea.Text.Substring()
+
+                //Biore text od curosra do końca i przed kursorem
+                if (txtMainArea.SelectedText.Contains(text))
+                    CurrentSelectedStartIndex += text.Length;
+                 textFromCursor = txtMainArea.Text.Substring(CurrentSelectedStartIndex);
+                 beforeCursor = txtMainArea.Text.Substring(0, CurrentSelectedStartIndex);
+
+
+                //w tekscie po kursorze znajduję pierwszy index textu i zamianiam go na tyldę
+                indexToSelect = textFromCursor.IndexOf(text);
+                if(indexToSelect < 0)
+                {
+                    CurrentSelectedStartIndex = 0;
+                    textFromCursor = txtMainArea.Text.Substring(CurrentSelectedStartIndex);
+                    beforeCursor = txtMainArea.Text.Substring(0, CurrentSelectedStartIndex);
+                    indexToSelect = textFromCursor.IndexOf(text);
+
+                    if(indexToSelect < 0)
+                    {
+                        MessageBox.Show("Brak wystąpienia danego elementu");
+                        return;
+                    }
+                }
+                textFromCursor = textFromCursor.Remove(textFromCursor.IndexOf(text),text.Length);
+                textFromCursor = textFromCursor.Insert(indexToSelect, '~'.ToString());
+
+                //textFromCursor = textFromCursor.Replace(text, '~'.ToString());
+                //(int i = 0; i < textFromCursor.Length; i++)
+                //{
+                //    if(textFromCursor[i] == '~')
+                //    {
+                //        textFromCursor.Substring(i)
+                //    }
+                //}
+
+                //Teraz dołączam text
+                string newString = String.Empty;
+
+                if (beforeCursor == String.Empty)
+                    newString = textFromCursor;
+                else
+                    newString = beforeCursor +  textFromCursor;
+
+                //Zamianiam tylde na zadane słowo i je zaznaczam
+                int indexOfTilde = newString.IndexOf('~');
+                newString = newString.Remove(indexOfTilde, 1);
+                newString = newString.Insert(indexOfTilde, text);
+
+                txtMainArea.Text = newString;
+                txtMainArea.Select(indexOfTilde, text.Length);
+                
+                //foreach (Window window in Application.Current.Windows)
+                //{
+                //    if (window.GetType() == typeof(FindAndReplace))
+                //    {
+                //        index = (window as FindAndReplace).Counter;
+                //    }
+                //}
+
+
+
+                //foreach (Match match in Regex.Matches(textFromCursor, pattern, RegexOptions.IgnoreCase))
+                //{
+                //    if (index == count)
+                //    {
+                //        txtMainArea.Select(match.Index, text.Length);
+                //    }
+                //    //Check if some text is selected if
+                //    //1)It is search word and its index is 0 start from 1
+                //    //2)if it serach word and its index is not 0 start from 0
+                //    //3)if selectec text is serach text start from 0
+                //    //We know here that point 3 is happening or that nothing is selected
+                //    //txtMainArea.Select(txtMainArea.Text.IndexOf(text), text.Length);
+                //    //match.Index;
+                //    count++;
+                //}
+
+
+                ////FirstElementSelected = true;
+            }
+        }
+
+
 
         public void FindText(string text)
         {
