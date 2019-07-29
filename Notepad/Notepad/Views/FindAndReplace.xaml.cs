@@ -36,7 +36,6 @@ namespace Notepad.Views
         //Find
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Counter = 0;
             string text = textToFind.Text;
             foreach (Window window in Application.Current.Windows)
             {
@@ -52,7 +51,6 @@ namespace Notepad.Views
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             string text = textToFind.Text;
-            Counter++;
             foreach (Window window in Application.Current.Windows)
             {
                 if (window.GetType() == typeof(MainWindow))
@@ -65,17 +63,35 @@ namespace Notepad.Views
 
         private void Replace_Click(object sender, RoutedEventArgs e)
         {
-            Counter = -1;
+            string findText = textToFind.Text;
+            string replaceText = textToReplace.Text;
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(MainWindow))
+                {
+                    (window as MainWindow).Activate();
+                    (window as MainWindow).ReplaceText(findText, replaceText);
+                }
+            }
         }
 
         private void ReplaceAll_Click(object sender, RoutedEventArgs e)
         {
-            Counter = -1;
+            string findText = textToFind.Text;
+            string replaceText = textToReplace.Text;
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(MainWindow))
+                {
+                    (window as MainWindow).Activate();
+                    (window as MainWindow).ReplaceAll(findText, replaceText);
+                }
+            }
         }
 
         private void TextToFind_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Counter = -1;
+            
         }
 
 

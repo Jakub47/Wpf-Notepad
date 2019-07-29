@@ -453,7 +453,25 @@ namespace Notepad
             }
         }
 
+        public void ReplaceText(string textToFind,string textToReplace)
+        {
+            if (txtMainArea.Text != String.Empty)
+            {
+                int index = txtMainArea.Text.IndexOf(textToFind);
+                if (index == -1) return;
+                txtMainArea.Text = txtMainArea.Text.Remove(index, textToFind.Length);
+                txtMainArea.Text = txtMainArea.Text.Insert(index, textToReplace);
+                txtMainArea.Select(index, textToReplace.Length);
+            }
+        }
 
+        public void ReplaceAll(string textToFind, string textToReplace)
+        {
+            if (txtMainArea.Text != String.Empty)
+            {
+                txtMainArea.Text = txtMainArea.Text.Replace(textToFind, textToReplace);
+            }
+        }
 
         public void FindText(string text)
         {

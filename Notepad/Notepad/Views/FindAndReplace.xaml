@@ -23,12 +23,33 @@
 
             </CheckBox>
         </StackPanel>
-        
-        <ScrollViewer Margin="0 5 0 5" HorizontalScrollBarVisibility="Auto" Grid.Column="0" Grid.Row="1">
-            <TextBox Name="textToFind" TextWrapping="WrapWithOverflow" TextChanged="TextToFind_TextChanged" >
 
-            </TextBox>
-        </ScrollViewer>
+        <Grid Margin="0 5 0 5" Grid.Column="0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock>Znajdź tekst:</TextBlock>
+                <ScrollViewer Margin="0 5 0 5" HorizontalScrollBarVisibility="Auto" Grid.Row="0">
+                    <TextBox Name="textToFind" TextWrapping="WrapWithOverflow" TextChanged="TextToFind_TextChanged" >
+                    </TextBox>
+                </ScrollViewer>
+            </StackPanel>
+           
+
+            <StackPanel Grid.Row="1">
+                <TextBlock>Zmień znaleziony tekst na</TextBlock>
+                <ScrollViewer Margin="0 5 0 5" HorizontalScrollBarVisibility="Auto" Grid.Row="1">
+                    <TextBox Name="textToReplace" TextWrapping="WrapWithOverflow" TextChanged="TextToFind_TextChanged" >
+                    </TextBox>
+                </ScrollViewer>
+            </StackPanel>
+            
+
+        </Grid>
+        
         <StackPanel Grid.Column="1" Grid.Row="1" >
             <Button Margin="5" Content="Find" Click="Button_Click">
 
