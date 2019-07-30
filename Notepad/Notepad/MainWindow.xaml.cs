@@ -35,11 +35,17 @@ namespace Notepad
        
         private List<string> _colors;
         private bool _txtMainAreaWordMapped;
+        private List<Key> keys;
+        private bool listenForShortcut;
 
+        ConsoleKeyInfo cki;
+        // Prevent example from ending if CTL+C is pressed.
+        
 
         public MainWindow()
         {
             InitializeComponent();
+            keys = new List<Key>();
             _colors = new List<string>();
             _colors.Add("Black"); _colors.Add("Blue"); _colors.Add("Black"); _colors.Add("Brown"); _colors.Add("Red"); _colors.Add("Gold");
             _txtMainAreaWordMapped = false;
@@ -60,7 +66,7 @@ namespace Notepad
                 ForeGroundColorsMenuItem.Items.Add(menuItemForeground);
             }
 
-
+            
             BackgroundColors.Items.Add(new MenuItem() { Header = "Color1" });
         }
 
@@ -316,7 +322,7 @@ namespace Notepad
             //}
 
             FindAndReplace findAndReplace = new FindAndReplace();
-            findAndReplace.Show();
+                findAndReplace.Visibility = Visibility.Visible;
             
             //int numberOfColumns = txtMainArea.LineCount;
 
@@ -635,6 +641,33 @@ namespace Notepad
         {
             FontInfo fontInfo = new FontInfo();
             fontInfo.Show();
+        }
+
+        private void Window1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+            {
+                listenForShortcut = true;
+            }
+            
+            if(listenForShortcut)
+            {
+                if (e.Key == Key.F)
+                {
+                    listenForShortcut = false;
+                    MenuFind_Click(null,null);
+                }
+            }
+
+        }
+
+        private void Window1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.LeftCtrl || e.Key == Key.RightCtrl)
+            {
+                listenForShortcut = false;
+            }
+
         }
     }
 }
