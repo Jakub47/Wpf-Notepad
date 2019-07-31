@@ -20,17 +20,25 @@ namespace Notepad.Views
     /// </summary>
     public partial class FindAndReplace : Window
     {
+       
+ 
         public int Counter { get; set; }
 
         public FindAndReplace()
         {
             InitializeComponent();
-            Counter = -1;
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            
+            foreach (Window window in Application.Current.Windows)
+            {
+                if (window.GetType() == typeof(MainWindow))
+                {
+                    (window as MainWindow).Activate();
+                    (window as MainWindow).canOpenFindAndReplace = true;
+                }
+            }
         }
 
         //Find
@@ -93,7 +101,6 @@ namespace Notepad.Views
         {
             
         }
-
 
     }
 }

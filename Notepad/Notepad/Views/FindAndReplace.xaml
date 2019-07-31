@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad.Views"
         mc:Ignorable="d"
-        Title="FindAndReplace" Height="190" Width="300" ResizeMode="NoResize" Closed="Window_Closed" Topmost="True" Visibility="Collapsed">
+        Title="FindAndReplace" Height="190" Width="300" ResizeMode="NoResize" Closed="Window_Closed" Topmost="True" Visibility="Collapsed" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"></ColumnDefinition>

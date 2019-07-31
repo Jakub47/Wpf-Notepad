@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad"
         mc:Ignorable="d"
-        Title="New" Height="450" Width="800" Closed="Window_Closed" Loaded="Window_Loaded" KeyDown="Window1_KeyDown" KeyUp="Window1_KeyUp">
+        Title="New" Height="450" Width="800" Closed="Window_Closed" Loaded="Window_Loaded" KeyDown="Window1_KeyDown" KeyUp="Window1_KeyUp" Closing="Window1_Closing">
 
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">

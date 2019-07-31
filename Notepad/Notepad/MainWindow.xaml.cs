@@ -37,16 +37,17 @@ namespace Notepad
         private bool _txtMainAreaWordMapped;
         private List<Key> keys;
         private bool listenForShortcut;
+        public bool canOpenFindAndReplace;
 
-        ConsoleKeyInfo cki;
         // Prevent example from ending if CTL+C is pressed.
-        
+
 
         public MainWindow()
         {
             InitializeComponent();
             keys = new List<Key>();
             _colors = new List<string>();
+            canOpenFindAndReplace = true;
             _colors.Add("Black"); _colors.Add("Blue"); _colors.Add("Black"); _colors.Add("Brown"); _colors.Add("Red"); _colors.Add("Gold");
             _txtMainAreaWordMapped = false;
             CurrentSelectedStartIndex = -1;
@@ -222,20 +223,25 @@ namespace Notepad
         private void MenuSave_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
-            saveFileDialog.FileName = this.Title;
+            saveFileDialog.FileName = this.Title.Replace("*",string.Empty);
             saveFileDialog.DefaultExt = ".txt";
+            saveFileDialog.Filter = "Text documents (.txt)|*.txt" +
+                                    "|All Files|*.*"; // Filter files by extension
+
             var Saveresult = saveFileDialog.ShowDialog();
             if (Saveresult == true)
             {
                 string path = saveFileDialog.FileName;
-                if (!File.Exists(path))
-                {
+                
                     // Create a file to write to.
                     using (StreamWriter sw = File.CreateText(path))
                     {
-                        sw.WriteLine(txtMainArea.Text);
-                    }
+                        if(sender == null)
+                            sw.WriteLine(txtMainArea.Text + null); // if not null will be added it will not add last letter to file
+                        else
+                            sw.WriteLine(txtMainArea.Text);
                 }
+                
 
                 this.Title = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
             }
@@ -282,7 +288,7 @@ namespace Notepad
 
         private void MenuFind_Click(object sender, RoutedEventArgs e)
         {
-            
+
 
 
             //List<Word> words = new List<Word>();
@@ -321,8 +327,13 @@ namespace Notepad
             //    MainScroll.LineDown();
             //}
 
-            FindAndReplace findAndReplace = new FindAndReplace();
-                findAndReplace.Visibility = Visibility.Visible;
+            if(canOpenFindAndReplace)
+            {
+                FindAndReplace findAndReplace = new FindAndReplace();
+                findAndReplace.Show();
+                canOpenFindAndReplace = false;
+            }
+            
             
             //int numberOfColumns = txtMainArea.LineCount;
 
@@ -344,8 +355,11 @@ namespace Notepad
         {
             foreach(Window win in App.Current.Windows)
             {
-                win.Close();
+                if(win != this.Window1)
+                    win.Close();
             }
+
+          
         }
 
         public void FindFirst(string text)
@@ -657,6 +671,13 @@ namespace Notepad
                     listenForShortcut = false;
                     MenuFind_Click(null,null);
                 }
+
+                if(e.Key == Key.S)
+                {
+                    listenForShortcut = false;
+                    MenuSave_Click(null, null);
+                    e.Handled = true;
+                }
             }
 
         }
@@ -668,6 +689,40 @@ namespace Notepad
                 listenForShortcut = false;
             }
 
+        }
+
+        private void Window1_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var c = txtMainArea.Text != string.Empty;
+            bool g = this.Title.ElementAt(this.Title.Length - 1) == '*';
+
+            if (c || g)
+            {
+                string message = "Czy zapisac ten plik";
+                var result = MessageBox.Show(message, "Save file", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if (result.ToString() == "Yes")
+                {
+                    Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+                    saveFileDialog.FileName = this.Title;
+                    saveFileDialog.DefaultExt = ".txt";
+                    var Saveresult = saveFileDialog.ShowDialog();
+                    if (Saveresult == true)
+                    {
+                        string path = saveFileDialog.FileName;
+                        if (!File.Exists(path))
+                        {
+                            // Create a file to write to.
+                            using (StreamWriter sw = File.CreateText(path))
+                            {
+                                sw.WriteLine(txtMainArea.Text);
+                            }
+                        }
+
+                        this.Title = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
+                    }
+                }
+            }
         }
     }
 }
