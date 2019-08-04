@@ -678,6 +678,37 @@ namespace Notepad
                     MenuSave_Click(null, null);
                     e.Handled = true;
                 }
+
+                if(e.Key == Key.D)
+                {
+                    if(txtMainArea.SelectedText == string.Empty)
+                    {
+                        int row = txtMainArea.GetLineIndexFromCharacterIndex(txtMainArea.CaretIndex);
+                        string[] lines = txtMainArea.Text.Split(new string[] { "\r\n" },StringSplitOptions.None);
+
+                        string copyText = "";
+                        int index = 0;
+
+                        for (int i = 0; i < lines.Length; i++)
+                        {
+                            copyText = copyText + lines[i] + "\r\n" ;
+                            if (i == row)
+                            {
+                                copyText = copyText + lines[i] + "\r\n";
+                                index += copyText.Length - 1;
+                            }
+                        }
+
+                        txtMainArea.Text = copyText;
+                        txtMainArea.Select(index, 1);
+                        
+                    }
+                    else
+                    {
+                        string text = txtMainArea.SelectedText;
+                        txtMainArea.Text += text;
+                    }
+                }
             }
 
         }
