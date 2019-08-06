@@ -695,18 +695,21 @@ namespace Notepad
                             if (i == row)
                             {
                                 copyText = copyText + lines[i] + "\r\n";
-                                index += copyText.Length - 1;
+                                index += copyText.Length - lines[i].Length - 2;
                             }
                         }
+                        copyText = copyText.Remove(copyText.LastIndexOf("\r\n"), 2);
 
                         txtMainArea.Text = copyText;
-                        txtMainArea.Select(index, 1);
+                        txtMainArea.Select(index, 0);
                         
                     }
                     else
                     {
                         string text = txtMainArea.SelectedText;
-                        txtMainArea.Text += text;
+                        int ind = txtMainArea.SelectionStart + text.Length;
+                        txtMainArea.Text = txtMainArea.Text.Insert(ind, text);
+                        txtMainArea.Select(ind, text.Length);
                     }
                 }
             }
