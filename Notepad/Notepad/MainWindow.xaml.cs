@@ -664,6 +664,15 @@ namespace Notepad
                 listenForShortcut = true;
             }
             
+            if(e.Key == Key.Tab)
+            {
+                int index = txtMainArea.SelectionStart;
+                txtMainArea.Text = txtMainArea.Text.Insert(index, "    ");
+                txtMainArea.Select(index + 4, 0);
+
+                e.Handled = true;
+            }
+
             if(listenForShortcut)
             {
                 if (e.Key == Key.F)
