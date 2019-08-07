@@ -43,8 +43,7 @@
             </MenuItem>
 
             <MenuItem Header="_About">
-                <MenuItem Header="_Developer" />
-                <MenuItem Header="_Commands" />
+                <MenuItem Header="_Developer" Click="MenuItem_Click" />
             </MenuItem>
         </Menu>
 

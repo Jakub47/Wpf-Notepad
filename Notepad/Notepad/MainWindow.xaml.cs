@@ -767,5 +767,10 @@ namespace Notepad
                 }
             }
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Aplikacja stworzona przez Jakuba Bergmann na tę chwilę studenta informatykii i programiste z rocznym doświadczeniem");
+        }
     }
 }
