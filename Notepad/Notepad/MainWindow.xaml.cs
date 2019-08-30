@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Xml;
 
 namespace Notepad
 {
@@ -48,7 +48,7 @@ namespace Notepad
             keys = new List<Key>();
             _colors = new List<string>();
             canOpenFindAndReplace = true;
-            _colors.Add("Black"); _colors.Add("Blue"); _colors.Add("Black"); _colors.Add("Brown"); _colors.Add("Red"); _colors.Add("Gold");
+            _colors.Add("White"); _colors.Add("Blue"); _colors.Add("Black"); _colors.Add("Brown"); _colors.Add("Red"); _colors.Add("Gold");
             _txtMainAreaWordMapped = false;
             CurrentSelectedStartIndex = -1;
             txtBasicInfo.Text = "Line 0 Char 0 Letters 0 Vowels a e i o u";
@@ -69,6 +69,7 @@ namespace Notepad
 
             
             BackgroundColors.Items.Add(new MenuItem() { Header = "Color1" });
+            initialStyleSettings();
         }
 
         private void changeBackground(object sender,EventArgs e)
@@ -83,7 +84,7 @@ namespace Notepad
         public void changeForeground(object sender, EventArgs e)
         {
             MenuItem item = (MenuItem)sender;
-            BrushConverter c = new BrushConverter();
+            BrushConverter c = new BrushConverter(); 
             SolidColorBrush b = c.ConvertFromString(item.Header.ToString()) as SolidColorBrush;
             txtMainArea.Foreground = b;
         }
@@ -771,6 +772,111 @@ namespace Notepad
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Aplikacja stworzona przez Jakuba Bergmann na tę chwilę studenta informatykii i programiste z rocznym doświadczeniem");
+        }
+
+        private void SaveCurrentStyle_Click(object sender, RoutedEventArgs e)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.PreserveWhitespace = true;
+            try
+            {
+                doc.Load("BasicConfiguration.xml");
+            }catch(System.IO.FileNotFoundException)
+            {
+                //If file will not exists create it!
+                doc.LoadXml("<style> \n" +
+                    "  <fontFamily>Linux Libertine Display G</fontFamily> \n" +
+                    "  <fontSize>12</fontSize> \n" +
+                    "  <background>FFFFFFFF</background> \n" +
+                    "   <foreground>FF000000</foreground> \n" +
+                    "</style>");
+            }
+            XmlNode root = doc.FirstChild;
+            if(root.HasChildNodes)
+            {
+                for (int i = 0; i < root.ChildNodes.Count; i++)
+                {
+                    var gg = root.ChildNodes[i];
+                    XmlElement elementXml = root.ChildNodes[i] as XmlElement;
+
+                    //It means that given element is \r\n 
+                    if (elementXml != null)
+                    {
+                        BrushConverter c = new BrushConverter();
+
+                        switch (elementXml.LocalName)
+                        {
+                            case "fontFamily":
+                                elementXml.InnerText = txtMainArea.FontFamily.Source;
+                                break;
+                            case "fontSize":
+                                elementXml.InnerText = txtMainArea.FontSize.ToString();
+                                break;
+                            case "background":
+                                elementXml.InnerText = c.ConvertToString(txtMainArea.Background);
+                                break;
+                            case "foreground":
+                                elementXml.InnerText = c.ConvertToString(txtMainArea.Foreground);
+                                break;
+                        }
+                    }
+                }
+            }
+            doc.Save("BasicConfiguration.xml");
+            MessageBox.Show("Zmiany zostały zapisane");
+        }
+
+
+        private void initialStyleSettings()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.PreserveWhitespace = true;
+            try
+            {
+                doc.Load("BasicConfiguration.xml");
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                //If file will not exists create it!
+                doc.LoadXml("<style> \n" +
+                    "  <fontFamily>Linux Libertine Display G</fontFamily> \n" +
+                    "  <fontSize>12</fontSize> \n" +
+                    "  <background>#FFFFFFFF</background> \n" +
+                    "   <foreground>#FF000000</foreground> \n" +
+                    "</style>");
+            }
+            XmlNode root = doc.FirstChild;
+            if (root.HasChildNodes)
+            {
+                for (int i = 0; i < root.ChildNodes.Count; i++)
+                {
+                    XmlElement elementXml = root.ChildNodes[i] as XmlElement;
+                    //It means that given element is \r\n 
+                    if (elementXml != null)
+                    {
+                        BrushConverter c = new BrushConverter();
+                        FontFamilyConverter converter = new FontFamilyConverter();
+                        SolidColorBrush b;
+                        switch (elementXml.LocalName)
+                        {
+                            case "fontFamily":
+                                txtMainArea.FontFamily = converter.ConvertFromString(elementXml.InnerText) as FontFamily;
+                                break;
+                            case "fontSize":
+                                txtMainArea.FontSize = Convert.ToInt32(elementXml.InnerText);
+                                break;
+                            case "background":
+                                b = c.ConvertFromString(elementXml.InnerText) as SolidColorBrush;
+                                txtMainArea.Background = b;
+                                break;
+                            case "foreground":
+                                 b = c.ConvertFromString(elementXml.InnerText) as SolidColorBrush;
+                                txtMainArea.Foreground = b;
+                                break;
+                        }
+                    }
+                }
+            }
         }
     }
 }

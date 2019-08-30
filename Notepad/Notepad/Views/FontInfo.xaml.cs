@@ -36,17 +36,31 @@ namespace Notepad.Views
             {
                 ComboBoxItem item = new ComboBoxItem() { Content = currentFontFamily.Source.ToString() };
                 ComboBoxFonts.Items.Add(item);
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window.GetType() == typeof(MainWindow))
+                    {
+                        if ((window as MainWindow).txtMainArea.FontFamily.Source.ToString() == item.Content.ToString())
+                            ComboBoxFonts.SelectedIndex = ComboBoxFonts.Items.Count - 1;
+                    }
+                }
             }
         }
 
         private void InitializeFontFamillyList()
         {
-            for(int i = 0;i<=72;i++)
+            for(int i = 1;i<=72;i++)
             {
-                if(i == 12)
-                    ComboBoxFontSize.Items.Add(new ListBoxItem() { Content = (i + 1).ToString(),IsSelected=true});
-                else
-                    ComboBoxFontSize.Items.Add(new ListBoxItem() { Content = (i + 1).ToString() });
+                ComboBoxItem item = new ComboBoxItem() { Content = (i).ToString() };
+                ComboBoxFontSize.Items.Add(item);
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window.GetType() == typeof(MainWindow))
+                    {
+                        if ((window as MainWindow).txtMainArea.FontSize == i)
+                            ComboBoxFontSize.SelectedIndex = i - 1;
+                    }
+                }
             }
         }
 

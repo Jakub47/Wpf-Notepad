@@ -18,7 +18,7 @@
             <RowDefinition Height="4*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <ComboBox Grid.Column="0" x:Name="ComboBoxFonts" SelectionChanged="ComboBoxFonts_SelectionChanged">
+        <ComboBox  Grid.Column="0" x:Name="ComboBoxFonts" SelectionChanged="ComboBoxFonts_SelectionChanged">
         </ComboBox>
 
         <ComboBox Grid.Column="1" x:Name="ComboBoxFontSize" SelectionChanged="ComboBoxFontSize_SelectionChanged">

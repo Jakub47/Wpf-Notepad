@@ -45,11 +45,15 @@
             <MenuItem Header="_About">
                 <MenuItem Header="_Developer" Click="MenuItem_Click" />
             </MenuItem>
+
         </Menu>
 
         <StatusBar SelectiveScrollingGrid.SelectiveScrollingOrientation="Both" Name="StatusBasicInfo" DockPanel.Dock="Bottom">
             <StatusBarItem>
                 <TextBlock Name="txtBasicInfo"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
+                <Button  Content="Zapisz styl" x:Name="SaveCurrentStyle" Click="SaveCurrentStyle_Click"/>
             </StatusBarItem>
         </StatusBar>
         <ScrollViewer Name="MainScroll" HorizontalScrollBarVisibility="Auto">
