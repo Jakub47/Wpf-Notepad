@@ -161,6 +161,8 @@ namespace Notepad
                     Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
                     saveFileDialog.FileName = this.Title;
                     saveFileDialog.DefaultExt = ".txt";
+                    saveFileDialog.Filter = "Text documents (.txt)|*.txt" +
+                                            "|All Files|*.*"; // Filter files by extension
                     var Saveresult = saveFileDialog.ShowDialog();
                     if(Saveresult == true)
                     {
@@ -201,6 +203,9 @@ namespace Notepad
                 Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
                 saveFileDialog.FileName = this.Title;
                 saveFileDialog.DefaultExt = ".txt";
+                saveFileDialog.Filter = "Text documents (.txt)|*.txt" +
+                                        "|All Files|*.*"; // Filter files by extension
+
                 var Saveresult = saveFileDialog.ShowDialog();
                 
                 if (Saveresult == true)
@@ -263,6 +268,8 @@ namespace Notepad
                     Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
                     saveFileDialog.FileName = this.Title;
                     saveFileDialog.DefaultExt = ".txt";
+                    saveFileDialog.Filter = "Text documents (.txt)|*.txt" +
+                                            "|All Files|*.*"; // Filter files by extension
                     var Saveresult = saveFileDialog.ShowDialog();
 
                     if (Saveresult == true)
@@ -750,6 +757,8 @@ namespace Notepad
                     Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
                     saveFileDialog.FileName = this.Title;
                     saveFileDialog.DefaultExt = ".txt";
+                    saveFileDialog.Filter = "Text documents (.txt)|*.txt" +
+                                            "|All Files|*.*"; // Filter files by extension
                     var Saveresult = saveFileDialog.ShowDialog();
                     if (Saveresult == true)
                     {
@@ -774,6 +783,7 @@ namespace Notepad
             MessageBox.Show("Aplikacja stworzona przez Jakuba Bergmann na tę chwilę studenta informatykii i programiste z rocznym doświadczeniem");
         }
 
+        //In order for it to work you must have BasicConfiguration.xml in the same place where .exe is
         private void SaveCurrentStyle_Click(object sender, RoutedEventArgs e)
         {
             XmlDocument doc = new XmlDocument();
