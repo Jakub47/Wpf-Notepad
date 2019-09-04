@@ -89,6 +89,32 @@ namespace Notepad
             txtMainArea.Foreground = b;
         }
 
+        private void MenuSave_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.FileName = this.Title.Replace("*", string.Empty);
+            saveFileDialog.DefaultExt = ".txt";
+            saveFileDialog.Filter = "Text documents (.txt)|*.txt" +
+                                    "|All Files|*.*"; // Filter files by extension
+
+            var Saveresult = saveFileDialog.ShowDialog();
+            if (Saveresult == true)
+            {
+                string path = saveFileDialog.FileName;
+
+                // Create a file to write to.
+                using (StreamWriter sw = File.CreateText(path))
+                {
+                    if (sender == null)
+                        sw.WriteLine(txtMainArea.Text + null); // if not null will be added it will not add last letter to file
+                    else
+                        sw.WriteLine(txtMainArea.Text);
+                }
+
+
+                this.Title = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
+            }
+        }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -226,32 +252,7 @@ namespace Notepad
             this.Title = "New";
         }
 
-        private void MenuSave_Click(object sender, RoutedEventArgs e)
-        {
-            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
-            saveFileDialog.FileName = this.Title.Replace("*",string.Empty);
-            saveFileDialog.DefaultExt = ".txt";
-            saveFileDialog.Filter = "Text documents (.txt)|*.txt" +
-                                    "|All Files|*.*"; // Filter files by extension
-
-            var Saveresult = saveFileDialog.ShowDialog();
-            if (Saveresult == true)
-            {
-                string path = saveFileDialog.FileName;
-                
-                    // Create a file to write to.
-                    using (StreamWriter sw = File.CreateText(path))
-                    {
-                        if(sender == null)
-                            sw.WriteLine(txtMainArea.Text + null); // if not null will be added it will not add last letter to file
-                        else
-                            sw.WriteLine(txtMainArea.Text);
-                }
-                
-
-                this.Title = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
-            }
-        }
+    
 
         private void MenuExit_Click(object sender, RoutedEventArgs e)
         {
@@ -780,7 +781,7 @@ namespace Notepad
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Aplikacja stworzona przez Jakuba Bergmann na tę chwilę studenta informatykii i programiste z rocznym doświadczeniem");
+            MessageBox.Show("Aplikacja stworzona przez Jakuba Bergmann na tę chwilę studenta informatyki i programiste z rocznym doświadczeniem");
         }
 
         //In order for it to work you must have BasicConfiguration.xml in the same place where .exe is
